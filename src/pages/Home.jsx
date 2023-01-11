@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ProductCard from '../components/ProductCard';
-import { getQuery } from '../services/api';
+import { getQuery, getCategories } from '../services/api';
+import Navegation from './Navegation';
 
 export default class Home extends Component {
   state = {
+    categories: [],
     products: [],
     error: '',
     valueSearch: '',
   };
-
-  componentDidMount() {
-
+  
+ async componentDidMount() {
+    const categories = await getCategories();
+    this.setState({
+      categories,
+    });
   }
 
   getClick = async () => {
@@ -35,9 +41,29 @@ export default class Home extends Component {
   };
 
   render() {
-    const { products, error } = this.state;
+    const { history } = this.props;
+    const { categories, products, error } = this.state;
     return (
-      <>
+      <div>
+       <nav className="lateral">
+          { categories
+            .map((category) => (<Navegation
+              key={ category.id }
+              name={ category.name }
+            />)) }
+        </nav>
+        <p data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </p>
+        <section>
+          <button
+            type="button"
+            onClick={ () => history.push('/ShoppingCart') }
+            data-testid="shopping-cart-button"
+          >
+            Carrinho de compras
+          </button>
+        </section>
         <form>
           <label htmlFor="searchInput">
             <input
@@ -78,7 +104,13 @@ export default class Home extends Component {
             }
           </div>
         )}
-      </>
+      </div>
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.oneOfType([
+    PropTypes.object,
+  ]).isRequired,
+};

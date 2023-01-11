@@ -1,17 +1,22 @@
 import React from 'react';
-import { BrowserRouter, Link, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
+import ShoppingCart from './pages/ShoppingCart';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Link to="/" component={ Home } />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <main>
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={ Home } />
+            <Route to="/ShoppingCart" component={ ShoppingCart } />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </main>
   );
 }
 
 export default App;
+// start
