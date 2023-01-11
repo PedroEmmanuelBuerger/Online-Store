@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 import Navegation from './Navegation';
-import PropTypes from 'prop-types';
-
 
 export default class Home extends Component {
   state = {
@@ -17,7 +16,6 @@ export default class Home extends Component {
   }
 
   render() {
-
     const { categories } = this.state;
     const { history } = this.props;
 
