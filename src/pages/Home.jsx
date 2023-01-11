@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getCategories } from '../services/api';
 import Navegation from './Navegation';
+import PropTypes from 'prop-types';
+
 
 export default class Home extends Component {
   state = {
@@ -15,7 +17,10 @@ export default class Home extends Component {
   }
 
   render() {
+
     const { categories } = this.state;
+    const { history } = this.props;
+
     return (
       <div>
         <nav className="lateral">
@@ -29,7 +34,22 @@ export default class Home extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+        <section>
+          <button
+            type="button"
+            onClick={ () => history.push('/ShoppingCart') }
+            data-testid="shopping-cart-button"
+          >
+            Carrinho de compras
+          </button>
+        </section>
       </div>
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.oneOfType([
+    PropTypes.object,
+  ]).isRequired,
+};
