@@ -11,8 +11,8 @@ export default class Home extends Component {
     error: '',
     valueSearch: '',
   };
-  
- async componentDidMount() {
+ 
+  async componentDidMount() {
     const categories = await getCategories();
     this.setState({
       categories,
@@ -45,8 +45,8 @@ export default class Home extends Component {
     const { categories, products, error } = this.state;
     return (
       <div>
-       <nav className="lateral">
-          { categories
+        <nav className="lateral">
+         { categories
             .map((category) => (<Navegation
               key={ category.id }
               name={ category.name }
