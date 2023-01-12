@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
+import Cart from '../components/Cart';
 
 export default class Product extends Component {
-  state = {
-    products: [],
-  };
-
   render() {
-    const { products } = this.state;
-    const { match: { params: { id } } } = this.props;
-    console.log(id);
-    console.log(products);
+    const { product, history } = this.props;
+    console.log(product);
+    const { thumbnail, title, price, attributes } = product;
     return (
-      <div>oi Product</div>
+      <section>
+        <h3>{ title }</h3>
+        <img
+          // data-testid="product-detail-image"
+          src={ thumbnail }
+          alt="Imagem do produto"
+        />
+        <h4>{ price }</h4>
+        <ul>
+          { attributes.map((attribute, index) => (
+            <li key={ index }>
+              <p>
+                {` ${attribute.name} ${attribute.value_name} `}
+              </p>
+            </li>
+          )) }
+        </ul>
+        <Cart history={ history } />
+      </section>
     );
   }
 }
 
 Product.propTypes = {
-  match: PropTypes.shape([object]).isRequired,
+  product: PropTypes.shape([object]).isRequired,
 };

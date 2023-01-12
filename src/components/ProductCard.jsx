@@ -7,11 +7,15 @@ export default class ProductCard extends Component {
     return (
       // <Link>
       <section id={ id } data-testid="product">
-        <h6>
+        <h6 data-testid="product-detail-name">
           { title }
         </h6>
-        <img src={ thumbnail } alt="imagem-do-produto" />
-        <p>{ price }</p>
+        <p data-testid="product-detail-price">{ price }</p>
+        <img
+          data-testid="product-detail-image"
+          src={ thumbnail }
+          alt="imagem-do-produto"
+        />
       </section>
     );
   }

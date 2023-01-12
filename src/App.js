@@ -1,24 +1,42 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Product from './pages/Product';
 import ShoppingCart from './pages/ShoppingCart';
 
-function App() {
-  return (
-    <main>
-      <div className="App">
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" component={ Home } />
-            <Route path="/ShoppingCart" component={ ShoppingCart } />
-            <Route path="/product/:id" render={ (props) => (<Product { ...props } />) } />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    </main>
-  );
+class App extends React.Component {
+  state = {
+    product: '',
+  };
+
+  getProductObject = (product) => {
+    this.setState(() => ({
+      product,
+    }));
+  };
+
+  render() {
+    const { product } = this.state;
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={ (props) => (<Home
+              { ...props }
+              getProductObject={ this.getProductObject }
+            />) }
+          />
+          <Route path="/ShoppingCart" component={ ShoppingCart } />
+          <Route
+            path="/product/:id"
+            render={ () => (<Product data-testid="product" product={ product } />) }
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
-// start
