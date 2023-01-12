@@ -52,9 +52,6 @@ export default class Home extends Component {
               name={ category.name }
             />)) }
         </nav>
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
         <section>
           <button
             type="button"
