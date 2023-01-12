@@ -1,5 +1,5 @@
 export async function getCategories() {
-  const BASE = await fetch('https://api.mercadolibre.com/sites/MLB/categ7Bid%7Dories')
+  const BASE = await fetch('https://api.mercadolibre.com/sites/MLB/categories')
     .then((response) => response.json())
     .then((data) => data);
   return BASE;
