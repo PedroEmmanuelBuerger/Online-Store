@@ -24,6 +24,12 @@ export default class Product extends Component {
             </li>
           )) }
         </ul>
+        <button
+          data-testid="product-detail-add-to-cart"
+          type="button"
+        >
+          +
+        </button>
         <Cart history={ history } />
       </section>
     );

@@ -4,6 +4,25 @@ import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
 
 export default class Maps extends Component {
+  state = {
+    // count: 0,
+  };
+
+  componentDidMount() {
+
+  }
+
+  getSavedCart = () => {
+    const cartProducts = localStorage.getItem('cartProducts');
+    return cartProducts ? JSON.parse(cartProducts) : [];
+  };
+
+  getClick = (name, price, image) => {
+    const cartProducts = this.getSavedCart();
+    const newCartProducts = [...cartProducts, { name, price, image }];
+    localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
+  };
+
   render() {
     const { products, getProductObject } = this.props;
     return (
@@ -22,6 +41,15 @@ export default class Maps extends Component {
                   price={ product.price }
                 />
               </Link>
+              <button
+                data-testid="product-add-to-cart"
+                onClick={
+                  () => this.getClick(product.title, product.price, product.thumbnail)
+                }
+                type="button"
+              >
+                +
+              </button>
 
             </div>
           ))
