@@ -5,17 +5,15 @@ import ProductCard from './ProductCard';
 
 export default class Maps extends Component {
   render() {
-    const { products } = this.props;
+    const { products, getProductObject } = this.props;
     return (
       <div>
         {
           products.map((product) => (
-            <div key={ product.id }>
+            <div data-testid="product-detail-link" key={ product.id }>
               <Link
-                to={ {
-                  path: '/product',
-                  state: { product },
-                } }
+                to={ `/product/${product.id}` }
+                onClick={ () => getProductObject(product) }
               >
                 <ProductCard
                   id={ product.id }
@@ -37,4 +35,5 @@ Maps.propTypes = {
   products: PropTypes.oneOfType([
     PropTypes.array,
   ]).isRequired,
+  getProductObject: PropTypes.func.isRequired,
 };
