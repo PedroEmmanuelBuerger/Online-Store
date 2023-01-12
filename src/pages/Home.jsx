@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ProductCard from '../components/ProductCard';
-import { getQuery, getCategories } from '../services/api';
+import PropTypes, { object } from 'prop-types';
+import { getQuery, getCategories, getProductById } from '../services/api';
 import Navegation from './Navegation';
+import Maps from '../components/Maps';
 
 export default class Home extends Component {
   state = {
@@ -19,13 +19,18 @@ export default class Home extends Component {
     });
   }
 
-  getClick = async () => {
+  getClickSearch = async () => {
     const { valueSearch } = this.state;
     const { results } = await getQuery(valueSearch);
 
+    this.setState({
+      products: [],
+      error: '',
+    });
     if (results.length === 0) {
       this.setState({
         error: 'Nenhum produto foi encontrado',
+        valueSearch: '',
       });
     }
     this.setState({
@@ -40,6 +45,16 @@ export default class Home extends Component {
     });
   };
 
+  getClickRadio = async ({ target: id }) => {
+    const { results } = await getProductById(id.id);
+    this.setState({
+      products: [],
+    });
+    this.setState(() => ({
+      products: results,
+    }));
+  };
+
   render() {
     const { history } = this.props;
     const { categories, products, error } = this.state;
@@ -49,7 +64,9 @@ export default class Home extends Component {
           { categories
             .map((category) => (<Navegation
               key={ category.id }
+              id={ category.id }
               name={ category.name }
+              onClick={ this.getClickRadio }
             />)) }
         </nav>
         <section>
@@ -75,7 +92,7 @@ export default class Home extends Component {
             type="button"
             name="buttonSearch"
             data-testid="query-button"
-            onClick={ this.getClick }
+            onClick={ this.getClickSearch }
           >
             Procura
           </button>
@@ -86,20 +103,7 @@ export default class Home extends Component {
         { error.length > 0 ? (
           <p>{error}</p>
         ) : (
-          <div>
-            {
-              products.map((product) => (
-                <div key={ product.id }>
-                  <ProductCard
-                    id={ product.id }
-                    title={ product.title }
-                    thumbnail={ product.thumbnail }
-                    price={ product.price }
-                  />
-                </div>
-              ))
-            }
-          </div>
+          <Maps products={ products } />
         )}
       </div>
     );
@@ -107,7 +111,5 @@ export default class Home extends Component {
 }
 
 Home.propTypes = {
-  history: PropTypes.oneOfType([
-    PropTypes.object,
-  ]).isRequired,
+  history: PropTypes.shape([object]).isRequired,
 };
