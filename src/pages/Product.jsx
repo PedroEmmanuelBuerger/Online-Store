@@ -5,7 +5,6 @@ import Cart from '../components/Cart';
 export default class Product extends Component {
   render() {
     const { product, history } = this.props;
-    console.log(product);
     const { thumbnail, title, price, attributes } = product;
     return (
       <section>
@@ -33,4 +32,5 @@ export default class Product extends Component {
 
 Product.propTypes = {
   product: PropTypes.shape([object]).isRequired,
+  history: PropTypes.shape([object]).isRequired,
 };

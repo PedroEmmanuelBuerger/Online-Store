@@ -31,7 +31,11 @@ class App extends React.Component {
           <Route path="/ShoppingCart" component={ ShoppingCart } />
           <Route
             path="/product/:id"
-            render={ () => (<Product data-testid="product" product={ product } />) }
+            render={ (props) => (<Product
+              { ...props }
+              data-testid="product"
+              product={ product }
+            />) }
           />
         </Switch>
       </BrowserRouter>
