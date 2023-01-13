@@ -4,7 +4,6 @@ class ShoppingCart extends Component {
   state = {
     cartItems: [],
     length0: false,
-    // qtdProduct: 0,
   };
 
   componentDidMount() {
