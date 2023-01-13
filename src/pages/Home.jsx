@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes, { object } from 'prop-types';
 import { getQuery, getCategories, getProductById } from '../services/api';
 import Navegation from './Navegation';
 import Maps from '../components/Maps';
@@ -57,7 +57,7 @@ export default class Home extends Component {
   };
 
   render() {
-    // const { history } = this.props;
+    const { history } = this.props;
     const { categories, products, error } = this.state;
     return (
       <div>
@@ -71,8 +71,7 @@ export default class Home extends Component {
                 onClick={ this.getClickRadio }
               />)) }
           </nav>
-
-          <Cart />
+          <Cart history={ history } />
           <form>
             <label htmlFor="searchInput">
               <input
@@ -100,10 +99,14 @@ export default class Home extends Component {
           { error.length > 0 ? (
             <p>{error}</p>
           ) : (
-            <Maps products={ products } />
+            <Maps products={ products } getProductObject={ this.handleLocalStorage } />
           )}
         </main>
       </div>
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape([object]).isRequired,
+};

@@ -13,9 +13,14 @@ export default class Maps extends Component {
     return cartProducts ? JSON.parse(cartProducts) : [];
   };
 
-  getClick = (name, price, image) => {
+  getClick = (product) => {
+    const image = product.thumbnail;
+    const name = product.title;
+    const { price } = product;
+    const avalqat = product.available_quantity;
+    const quantity = 1;
     const cartProducts = this.getSavedCart();
-    const newCartProducts = [...cartProducts, { name, price, image }];
+    const newCartProducts = [...cartProducts, { name, price, image, quantity, avalqat }];
     localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
   };
 
@@ -37,9 +42,10 @@ export default class Maps extends Component {
                 />
               </Link>
               <button
+                id={ product.id }
                 data-testid="product-add-to-cart"
                 onClick={
-                  () => this.getClick(product.title, product.price, product.thumbnail)
+                  () => this.getClick(product)
                 }
                 type="button"
               >
