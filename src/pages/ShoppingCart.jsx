@@ -4,7 +4,6 @@ class ShoppingCart extends Component {
   state = {
     cartItems: [],
     length0: false,
-    // qtdProduct: 0,
   };
 
   componentDidMount() {
@@ -12,7 +11,6 @@ class ShoppingCart extends Component {
   }
 
   getSavedCart = () => {
-    // const { cartItems } = this.state;
     const cartProducts = localStorage.getItem('cartProducts');
     let cartItemsLocal = JSON.parse(cartProducts);
     if (cartItemsLocal === null) {
@@ -27,7 +25,41 @@ class ShoppingCart extends Component {
         length0: true,
       });
     }
-    // return cartProducts ? JSON.parse(cartProducts) : [];
+  };
+
+  addQuantity = ({ target }) => {
+    const { cartItems } = this.state;
+    const item = cartItems.find((product) => product.name === target.name);
+    if (item.quantity < item.avalqat) {
+      item.quantity += 1;
+    }
+    this.setState({
+      cartItems: [...cartItems],
+    });
+    localStorage.setItem('cartProducts', JSON.stringify(cartItems));
+  };
+
+  removeQuantity = ({ target }) => {
+    const { cartItems } = this.state;
+    const item = cartItems.find((product) => product.name === target.name);
+
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+    }
+    this.setState({
+      cartItems: [...cartItems],
+    });
+    localStorage.setItem('cartProducts', JSON.stringify(cartItems));
+  };
+
+  eraseItemCart = ({ target }) => {
+    const { cartItems } = this.state;
+    const item = cartItems.find((product) => product.name === target.name);
+    const filtered = cartItems.filter((element) => element !== item);
+    this.setState(() => ({
+      cartItems: filtered,
+    }));
+    localStorage.setItem('cartProducts', JSON.stringify(filtered));
   };
 
   render() {
@@ -40,11 +72,48 @@ class ShoppingCart extends Component {
           (product, index) => (
             <section key={ index }>
               <h4 data-testid="shopping-cart-product-name">{ product.name }</h4>
+              <button
+                name={ product.name }
+                type="button"
+                data-testid="remove-product"
+                onClick={ (e) => this.eraseItemCart(e) }
+              >
+                X
+
+              </button>
               <img src={ product.image } alt="Imagem do produto" />
               <h3>{ product.price }</h3>
-              <p data-testid="shopping-cart-product-quantity">QTD: 1</p>
+              <button
+                name={ product.name }
+                type="button"
+                data-testid="product-increase-quantity"
+                onClick={ (e) => this.addQuantity(e) }
+              >
+                +
+
+              </button>
+              <button
+                name={ product.name }
+                type="button"
+                data-testid="product-decrease-quantity"
+                onClick={ (e) => this.removeQuantity(e) }
+              >
+                -
+
+              </button>
+              <p data-testid="shopping-cart-product-quantity">
+                QTD:
+                { product.quantity }
+              </p>
             </section>),
         )}
+        <button
+          type="button"
+          data-testid="shopping-cart-button"
+        >
+          Finalizar compra
+        </button>
+
       </div>
     );
   }

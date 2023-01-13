@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
 export default class Maps extends Component {
@@ -8,23 +8,24 @@ export default class Maps extends Component {
     // count: 0,
   };
 
-  componentDidMount() {
-
-  }
-
   getSavedCart = () => {
     const cartProducts = localStorage.getItem('cartProducts');
     return cartProducts ? JSON.parse(cartProducts) : [];
   };
 
-  getClick = (name, price, image) => {
+  getClick = (product) => {
+    const image = product.thumbnail;
+    const name = product.title;
+    const { price } = product;
+    const avalqat = product.available_quantity;
+    const quantity = 1;
     const cartProducts = this.getSavedCart();
-    const newCartProducts = [...cartProducts, { name, price, image }];
+    const newCartProducts = [...cartProducts, { name, price, image, quantity, avalqat }];
     localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
   };
 
   render() {
-    const { products, getProductObject } = this.props;
+    const { products } = this.props;
     return (
       <div>
         {
@@ -32,7 +33,6 @@ export default class Maps extends Component {
             <div data-testid="product-detail-link" key={ product.id }>
               <Link
                 to={ `/product/${product.id}` }
-                onClick={ () => getProductObject(product) }
               >
                 <ProductCard
                   id={ product.id }
@@ -42,9 +42,10 @@ export default class Maps extends Component {
                 />
               </Link>
               <button
+                id={ product.id }
                 data-testid="product-add-to-cart"
                 onClick={
-                  () => this.getClick(product.title, product.price, product.thumbnail)
+                  () => this.getClick(product)
                 }
                 type="button"
               >
@@ -63,5 +64,4 @@ Maps.propTypes = {
   products: PropTypes.oneOfType([
     PropTypes.array,
   ]).isRequired,
-  getProductObject: PropTypes.func.isRequired,
 };

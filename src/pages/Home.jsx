@@ -57,7 +57,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { history, getProductObject } = this.props;
+    const { history } = this.props;
     const { categories, products, error } = this.state;
     return (
       <div>
@@ -99,7 +99,7 @@ export default class Home extends Component {
           { error.length > 0 ? (
             <p>{error}</p>
           ) : (
-            <Maps products={ products } getProductObject={ getProductObject } />
+            <Maps products={ products } getProductObject={ this.handleLocalStorage } />
           )}
         </main>
       </div>
@@ -109,5 +109,5 @@ export default class Home extends Component {
 
 Home.propTypes = {
   history: PropTypes.shape([object]).isRequired,
-  getProductObject: PropTypes.func.isRequired,
+  // getProductObject: PropTypes.func.isRequired,
 };
