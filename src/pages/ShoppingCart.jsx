@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class ShoppingCart extends Component {
   state = {
     cartItems: [],
+    length0: false,
     // qtdProduct: 0,
   };
 
@@ -13,19 +14,27 @@ class ShoppingCart extends Component {
   getSavedCart = () => {
     // const { cartItems } = this.state;
     const cartProducts = localStorage.getItem('cartProducts');
-    const cartItems = JSON.parse(cartProducts);
-    console.log(cartItems);
+    let cartItemsLocal = JSON.parse(cartProducts);
+    if (cartItemsLocal === null) {
+      cartItemsLocal = [];
+    }
     this.setState({
-      cartItems,
+      cartItems: cartItemsLocal,
+      length0: false,
     });
+    if (cartItemsLocal.length === 0) {
+      this.setState({
+        length0: true,
+      });
+    }
     // return cartProducts ? JSON.parse(cartProducts) : [];
   };
 
   render() {
-    const { cartItems } = this.state;
+    const { cartItems, length0 } = this.state;
     return (
       <div>
-        { cartItems.length === 0 ? (
+        { length0 ? (
           <p data-testid=" shopping-cart-empty-message"> Seu carrinho está vazio</p>
         ) : cartItems.map(
           (product, index) => (
