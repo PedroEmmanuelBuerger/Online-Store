@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes, { object } from 'prop-types';
+// import PropTypes, { object } from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class Cart extends Component {
   render() {
-    const { history } = this.props;
     return (
-      <section>
+      <Link to="/ShoppingCart">
         <button
           type="button"
-          onClick={ () => history.push('/ShoppingCart') }
           data-testid="shopping-cart-button"
         >
           Carrinho de compras
         </button>
-      </section>
+      </Link>
     );
   }
 }
-
-Cart.propTypes = {
-  history: PropTypes.shape([object]).isRequired,
-};
