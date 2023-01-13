@@ -72,6 +72,7 @@ export default class Home extends Component {
               />)) }
           </nav>
           <Cart history={ history } />
+          Volta la no circulo
           <form>
             <label htmlFor="searchInput">
               <input
