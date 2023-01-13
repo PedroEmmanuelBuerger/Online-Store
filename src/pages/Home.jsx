@@ -109,5 +109,4 @@ export default class Home extends Component {
 
 Home.propTypes = {
   history: PropTypes.shape([object]).isRequired,
-  // getProductObject: PropTypes.func.isRequired,
 };
