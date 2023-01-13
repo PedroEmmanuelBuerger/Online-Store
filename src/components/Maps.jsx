@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
 export default class Maps extends Component {
   state = {
     // count: 0,
   };
-
-  componentDidMount() {
-
-  }
 
   getSavedCart = () => {
     const cartProducts = localStorage.getItem('cartProducts');
@@ -24,7 +20,7 @@ export default class Maps extends Component {
   };
 
   render() {
-    const { products, getProductObject } = this.props;
+    const { products } = this.props;
     return (
       <div>
         {
@@ -32,7 +28,6 @@ export default class Maps extends Component {
             <div data-testid="product-detail-link" key={ product.id }>
               <Link
                 to={ `/product/${product.id}` }
-                onClick={ () => getProductObject(product) }
               >
                 <ProductCard
                   id={ product.id }
@@ -63,5 +58,4 @@ Maps.propTypes = {
   products: PropTypes.oneOfType([
     PropTypes.array,
   ]).isRequired,
-  getProductObject: PropTypes.func.isRequired,
 };

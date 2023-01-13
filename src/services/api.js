@@ -25,3 +25,10 @@ export async function getProductById(id) {
     .then((data) => data);
   return ProductId;
 }
+
+export async function getId(id) {
+  const ProductId = await fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then((response) => response.json())
+    .then((data) => data);
+  return ProductId;
+}
