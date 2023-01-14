@@ -102,8 +102,7 @@ class ShoppingCart extends Component {
 
               </button>
               <p data-testid="shopping-cart-product-quantity">
-                QTD:
-                { product.quantity }
+                { (!product.quantity) ? 1 : product.quantity }
               </p>
             </section>),
         )}
