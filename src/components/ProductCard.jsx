@@ -6,7 +6,7 @@ export default class ProductCard extends Component {
     const { id, title, thumbnail, price } = this.props;
     return (
       <section id={ id } data-testid="product">
-        <h6 data-testid="product-detail-name">
+        <h6>
           { title }
         </h6>
         <img
