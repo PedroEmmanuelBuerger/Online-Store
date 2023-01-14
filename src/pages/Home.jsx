@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getQuery, getCategories, getProductById } from '../services/api';
 import Navegation from './Navegation';
-import Maps from '../components/Maps';
+// import Maps from '../components/Maps';
 import Cart from '../components/Cart';
+import ProductCard from '../components/ProductCard';
 
 export default class Home extends Component {
   state = {
@@ -56,6 +58,22 @@ export default class Home extends Component {
     }));
   };
 
+  getSavedCart = () => {
+    const cartProducts = localStorage.getItem('cartProducts');
+    return cartProducts ? JSON.parse(cartProducts) : [];
+  };
+
+  getClick = (product) => {
+    const image = product.thumbnail;
+    const name = product.title;
+    const { price } = product;
+    const avalqat = product.available_quantity;
+    const quantity = 1;
+    const cartProducts = this.getSavedCart();
+    const newCartProducts = [...cartProducts, { name, price, image, quantity, avalqat }];
+    localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
+  };
+
   render() {
     const { history } = this.props;
     const { categories, products, error } = this.state;
@@ -99,7 +117,32 @@ export default class Home extends Component {
           { error.length > 0 ? (
             <p>{error}</p>
           ) : (
-            <Maps products={ products } getProductObject={ this.handleLocalStorage } />
+            products.map((product) => (
+              <div key={ product.id }>
+                <Link
+                  to={ `/product/${product.id}` }
+                  data-testid="product-detail-link"
+                >
+                  <ProductCard
+                    id={ product.id }
+                    title={ product.title }
+                    thumbnail={ product.thumbnail }
+                    price={ product.price }
+                  />
+                </Link>
+                <button
+                  id={ product.id }
+                  data-testid="product-add-to-cart"
+                  onClick={
+                    () => this.getClick(product)
+                  }
+                  type="button"
+                >
+                  +
+                </button>
+
+              </div>
+            ))
           )}
         </main>
       </div>

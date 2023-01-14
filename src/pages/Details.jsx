@@ -38,7 +38,7 @@ export default class Product extends Component {
     const { thumbnail, title, price, attributes } = productData;
     return (
       <section>
-        <h3>{ title }</h3>
+        <h3 data-testid="product-detail-name">{ title }</h3>
         <img
           data-testid="product-detail-image"
           src={ thumbnail }
