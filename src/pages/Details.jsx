@@ -16,6 +16,7 @@ export default class Product extends Component {
     const { match } = this.props;
     const { id } = match.params;
     const product = await getId(id);
+    console.log(product);
     this.setState(() => ({
       productData: product,
     }));
@@ -26,28 +27,33 @@ export default class Product extends Component {
     return cartProducts ? JSON.parse(cartProducts) : [];
   };
 
-  getClick = (name, price, image) => {
+  getClick = (product) => {
+    const image = product.thumbnail;
+    const name = product.title;
+    const { price } = product;
+    const avalqat = product.available_quantity;
+    const quantity = 1;
     const cartProducts = this.getSavedCart();
-    const newCartProducts = [...cartProducts, { name, price, image }];
+    const newCartProducts = [...cartProducts, { name, price, image, quantity, avalqat }];
     localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
   };
 
   render() {
     const { history } = this.props;
     const { productData } = this.state;
-    const { thumbnail, title, price, attributes } = productData;
+
     return (
       <section>
-        <h3 data-testid="product-detail-name">{ title }</h3>
+        <h3 data-testid="product-detail-name">{ productData.title }</h3>
         <img
           data-testid="product-detail-image"
-          src={ thumbnail }
+          src={ productData.thumbnail }
           alt="Imagem do produto"
         />
-        <h4 data-testid="product-detail-price">{ price }</h4>
-        {(attributes) ? (
+        <h4 data-testid="product-detail-price">{ productData.price }</h4>
+        {(productData.attributes) ? (
           <ul>
-            { attributes.map((attribute, index) => (
+            { productData.attributes.map((attribute, index) => (
               <li key={ index }>
                 <p>
                   {` ${attribute.name} ${attribute.value_name} `}
@@ -61,7 +67,7 @@ export default class Product extends Component {
         <button
           data-testid="product-detail-add-to-cart"
           onClick={
-            () => this.getClick(title, price, thumbnail)
+            () => this.getClick(productData)
           }
           type="button"
         >
