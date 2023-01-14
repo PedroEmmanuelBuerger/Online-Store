@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
 import Cart from '../components/Cart';
 import { getId } from '../services/api';
+import FormAvaliation from './FormAvaliation';
 
 export default class Product extends Component {
   state = {
@@ -16,7 +17,6 @@ export default class Product extends Component {
     const { match } = this.props;
     const { id } = match.params;
     const product = await getId(id);
-    console.log(product);
     this.setState(() => ({
       productData: product,
     }));
@@ -39,7 +39,8 @@ export default class Product extends Component {
   };
 
   render() {
-    const { history } = this.props;
+    const { history, match } = this.props;
+    const id = match.params;
     const { productData } = this.state;
 
     return (
@@ -74,6 +75,7 @@ export default class Product extends Component {
           +
         </button>
         <Cart history={ history } />
+        <FormAvaliation id={ id.id } />
       </section>
     );
   }
