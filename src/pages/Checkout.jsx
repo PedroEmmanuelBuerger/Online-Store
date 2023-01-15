@@ -14,11 +14,22 @@ export default class Checkout extends Component {
     Payment: '',
     checkButton: false,
     error: false,
+    numberOfLength: 0,
   };
 
   componentDidMount() {
     this.getLocalStorage();
+    this.attLocal();
   }
+
+  attLocal = async () => {
+    const products = localStorage.getItem('cartProducts');
+    const bool = products ? JSON.parse(products) : [];
+    await this.setState(() => ({
+      numberOfLength: bool.length,
+    }));
+    localStorage.setItem('CartProductQuantity', bool.length);
+  };
 
   getLocalStorage = () => {
     const products = localStorage.getItem('cartProducts');
@@ -68,10 +79,10 @@ export default class Checkout extends Component {
   };
 
   render() {
-    const { allProducts, error } = this.state;
+    const { allProducts, error, numberOfLength } = this.state;
     return (
       <div>
-        <Cart />
+        <Cart numberOfLength={ numberOfLength } />
         {allProducts.length > 0
           ? (
             <div>
