@@ -29,9 +29,9 @@ export default class FormAvaliation extends Component {
     const { email, ratting } = this.state;
     const emailVali = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\)?$/i;
     const emailbool = emailVali.test(email);
-    const bool = (emailbool && ratting.length > 0);
+    const bool = !(emailbool && ratting);
     this.setState(() => ({
-      buttonValidation: !bool,
+      buttonValidation: bool,
     }));
   };
 
@@ -47,12 +47,17 @@ export default class FormAvaliation extends Component {
     }));
   };
 
-  saveAvaliation = async () => {
+  resetvalues =  () => {
+       this.setState(() => ({
+        text: '',
+        email: '',
+        }))
+  }
+
+  saveAvaliation = async (par1) => {
+    this.checkbutton();
+    par1.preventDefault();
     const { ratting, email, text } = this.state;
-    this.setState(() => ({
-      email: '',
-      text: '',
-    }));
     const avaliationObj = { email, text, ratting };
     await this.setState(() => ({
       arrayOfAvaliations: [avaliationObj],
@@ -81,15 +86,15 @@ export default class FormAvaliation extends Component {
     const message = <p data-testid="error-msg">Campos inválidos</p>;
     return (
       <div>
-        <form onSubmit={ (e) => e.preventDefault() }>
+        <form >
           <label htmlFor="email">
             <input
               type="email"
               data-testid="product-detail-email"
               name="email"
-              onChange={ async (e) => {
-                await this.handleChang(e);
-                this.checkbutton();
+              onChange={  (e) => {
+                 this.handleChang(e);
+                 this.checkbutton()
               } }
               value={ email }
             />
@@ -101,9 +106,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${one}-rating` }
                 id={ one }
-                onClick={ async (e) => {
-                  await this.handleChang(e);
-                  this.checkbutton();
+                onClick={  (e) => {
+                   this.handleChang(e);
+                   this.checkbutton()
                 } }
                 defaultValue={ email }
               />
@@ -113,9 +118,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${two}-rating` }
                 id={ two }
-                onClick={ async (e) => {
-                  await this.handleChang(e);
-                  this.checkbutton();
+                onClick={  (e) => {
+                   this.handleChang(e);
+                   this.checkbutton()
                 } }
               />
               2
@@ -124,9 +129,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${three}-rating` }
                 id={ three }
-                onClick={ async (e) => {
-                  await this.handleChang(e);
-                  this.checkbutton();
+                onClick={  (e) => {
+                  this.handleChang(e);
+                  this.checkbutton()
                 } }
               />
               3
@@ -135,9 +140,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${four}-rating` }
                 id={ four }
-                onClick={ async (e) => {
-                  await this.handleChang(e);
-                  this.checkbutton();
+                onClick={  (e) => {
+                 this.handleChang(e);
+                 this.checkbutton()
                 } }
               />
               4
@@ -146,9 +151,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${five}-rating` }
                 id={ five }
-                onClick={ async (e) => {
-                  await this.handleChang(e);
-                  this.checkbutton();
+                onClick={  (e) => {
+                   this.handleChang(e);
+                   this.checkbutton()
                 } }
               />
               5
@@ -166,9 +171,13 @@ export default class FormAvaliation extends Component {
             />
           </label>
           <button
-            type="submit"
+            type="button"
             data-testid="submit-review-btn"
-            onClick={ this.saveAvaliation }
+            onClick={ (e) => {
+              this.checkbutton();
+              this.resetvalues();
+              this.saveAvaliation(e);
+            } }
           >
             Enviar
           </button>
@@ -180,7 +189,6 @@ export default class FormAvaliation extends Component {
             <h4 data-testid="review-card-evaluation">{element.text}</h4>
             <h4 data-testid="review-card-rating">{element.ratting}</h4>
           </section>)) }
-
       </div>
     );
   }
