@@ -1,27 +1,15 @@
 import PropTypes, { object } from 'prop-types';
 import React, { Component } from 'react';
-import Cart from '../components/Cart';
 
 class ShoppingCart extends Component {
   state = {
     cartItems: [],
     length0: false,
-    numberOfLength: 0,
   };
 
   componentDidMount() {
     this.getSavedCart();
-    this.attLocal();
   }
-
-  attLocal = async () => {
-    const products = localStorage.getItem('cartProducts');
-    const bool = products ? JSON.parse(products) : [];
-    await this.setState(() => ({
-      numberOfLength: bool.length,
-    }));
-    localStorage.setItem('CartProductQuantity', bool.length);
-  };
 
   getSavedCart = () => {
     const cartProducts = localStorage.getItem('cartProducts');
@@ -76,11 +64,10 @@ class ShoppingCart extends Component {
   };
 
   render() {
-    const { cartItems, length0, numberOfLength } = this.state;
+    const { cartItems, length0 } = this.state;
     const { history } = this.props;
     return (
       <div>
-        <Cart numberOfLength={ numberOfLength } />
         { length0 ? (
           <p data-testid=" shopping-cart-empty-message"> Seu carrinho está vazio</p>
         ) : cartItems.map(
@@ -93,7 +80,6 @@ class ShoppingCart extends Component {
                 data-testid="remove-product"
                 onClick={ (e) => {
                   this.eraseItemCart(e);
-                  this.attLocal();
                 } }
               >
                 X

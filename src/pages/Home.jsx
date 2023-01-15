@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
-import { Link } from 'react-router-dom';
 import { getQuery, getCategories, getProductById } from '../services/api';
 import Navegation from './Navegation';
 import Cart from '../components/Cart';
@@ -128,23 +127,18 @@ export default class Home extends Component {
           <p data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
-          { error.length > 0 ? (
+          { !products.length ? (
             <p>{error}</p>
           ) : (
             products.map((product) => (
               <div key={ product.id }>
-                <Link
-                  to={ `/product/${product.id}` }
-                  data-testid="product-detail-link"
-                >
-                  <ProductCard
-                    id={ product.id }
-                    title={ product.title }
-                    thumbnail={ product.thumbnail }
-                    price={ product.price }
-                    shipping={ product.shipping }
-                  />
-                </Link>
+                <ProductCard
+                  id={ product.id }
+                  title={ product.title }
+                  thumbnail={ product.thumbnail }
+                  price={ product.price }
+                  shipping={ product.shipping }
+                />
                 <button
                   id={ product.id }
                   data-testid="product-add-to-cart"

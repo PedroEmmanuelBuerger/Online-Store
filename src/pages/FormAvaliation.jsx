@@ -6,12 +6,9 @@ export default class FormAvaliation extends Component {
     ratting: '',
     email: '',
     text: '',
-    buttonValidation: false,
-    rattingValidation: false,
-    emailValidation: false,
     arrayOfAvaliations: [],
-    error: false,
     newArray: [],
+    buttonValidation: false,
   };
 
   async componentDidMount() {
@@ -29,54 +26,36 @@ export default class FormAvaliation extends Component {
   };
 
   checkbutton = () => {
-    const { rattingValidation, emailValidation } = this.state;
-    const validation = (rattingValidation && emailValidation);
+    const { email, ratting } = this.state;
+    const emailVali = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\)?$/i;
+    const emailbool = emailVali.test(email);
+    const bool = (emailbool && ratting.length > 0);
     this.setState(() => ({
-      buttonValidation: validation,
+      buttonValidation: !bool,
     }));
   };
 
-  validationRatting = async (rattings) => {
-    await this.setState(() => ({
-      rattingValidation: true,
-      ratting: rattings.target.id,
-    }));
-    this.checkbutton();
-  };
-
-  getInputValue = async (inputvalue) => {
-    const email = inputvalue.target.value;
-    const emailVali = /\S+@\S+.\S+/;
-    const emailbool = email.match(emailVali) !== null && email.length > 0;
-    await this.setState(() => ({
-      emailValidation: emailbool,
-      email,
-    }));
-    this.checkbutton();
-  };
-
-  getMessegeValue = (inputvalue) => {
+  handleChang = ({ target }) => {
+    const { name, value, id } = target;
+    if (target.checked) {
+      return this.setState(() => ({
+        [name]: id,
+      }));
+    }
     this.setState(() => ({
-      text: inputvalue.target.value,
+      [name]: value,
     }));
   };
 
   saveAvaliation = async () => {
-    const { ratting, email, text,
-      buttonValidation } = this.state;
+    const { ratting, email, text } = this.state;
     this.setState(() => ({
       email: '',
       text: '',
     }));
-    if (!buttonValidation) {
-      return this.setState(() => ({
-        error: true,
-      }));
-    }
     const avaliationObj = { email, text, ratting };
     await this.setState(() => ({
       arrayOfAvaliations: [avaliationObj],
-      error: false,
     }));
     this.attStage();
   };
@@ -93,22 +72,24 @@ export default class FormAvaliation extends Component {
   };
 
   render() {
-    const { error, newArray, email, text } = this.state;
+    const { buttonValidation, newArray, email, text } = this.state;
     const one = 1;
     const two = 2;
     const three = 3;
     const four = 4;
     const five = 5;
+    const message = <p data-testid="error-msg">Campos inválidos</p>;
     return (
       <div>
-        <form>
+        <form onSubmit={ (e) => e.preventDefault() }>
           <label htmlFor="email">
             <input
               type="email"
               data-testid="product-detail-email"
-              onChange={ (e) => {
+              name="email"
+              onChange={ async (e) => {
+                await this.handleChang(e);
                 this.checkbutton();
-                this.getInputValue(e);
               } }
               value={ email }
             />
@@ -120,10 +101,11 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${one}-rating` }
                 id={ one }
-                onClick={ (e) => {
+                onClick={ async (e) => {
+                  await this.handleChang(e);
                   this.checkbutton();
-                  this.validationRatting(e);
                 } }
+                defaultValue={ email }
               />
               1
               <input
@@ -131,9 +113,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${two}-rating` }
                 id={ two }
-                onClick={ (e) => {
+                onClick={ async (e) => {
+                  await this.handleChang(e);
                   this.checkbutton();
-                  this.validationRatting(e);
                 } }
               />
               2
@@ -142,9 +124,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${three}-rating` }
                 id={ three }
-                onClick={ (e) => {
+                onClick={ async (e) => {
+                  await this.handleChang(e);
                   this.checkbutton();
-                  this.validationRatting(e);
                 } }
               />
               3
@@ -153,9 +135,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${four}-rating` }
                 id={ four }
-                onClick={ (e) => {
+                onClick={ async (e) => {
+                  await this.handleChang(e);
                   this.checkbutton();
-                  this.validationRatting(e);
                 } }
               />
               4
@@ -164,9 +146,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${five}-rating` }
                 id={ five }
-                onClick={ (e) => {
+                onClick={ async (e) => {
+                  await this.handleChang(e);
                   this.checkbutton();
-                  this.validationRatting(e);
                 } }
               />
               5
@@ -178,24 +160,25 @@ export default class FormAvaliation extends Component {
               cols="50"
               data-testid="product-detail-evaluation"
               placeholder="Mensagem(Opcional)"
-              onChange={ this.getMessegeValue }
+              name="text"
+              onChange={ this.handleChang }
               value={ text }
             />
           </label>
           <button
-            type="button"
+            type="submit"
             data-testid="submit-review-btn"
             onClick={ this.saveAvaliation }
           >
             Enviar
           </button>
+          { buttonValidation && message}
         </form>
-        {error ? <p data-testid="error-msg">Campos inválidos</p> : ''}
         {newArray.map((element, index) => (
           <section key={ index }>
             <h3 data-testid="review-card-email">{element.email}</h3>
             <h4 data-testid="review-card-evaluation">{element.text}</h4>
-            <h4 data-testid="review-card-evaluation">{element.ratting}</h4>
+            <h4 data-testid="review-card-rating">{element.ratting}</h4>
           </section>)) }
 
       </div>

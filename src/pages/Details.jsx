@@ -6,7 +6,7 @@ import FormAvaliation from './FormAvaliation';
 
 export default class Product extends Component {
   state = {
-    productData: [],
+    productData: {},
     numberOfLength: 0,
   };
 
@@ -39,13 +39,12 @@ export default class Product extends Component {
   };
 
   getClick = (product) => {
-    const image = product.thumbnail;
-    const name = product.title;
-    const { price } = product;
+    const { price, title, thumbnail } = product;
     const avalqat = product.available_quantity;
     const quantity = 1;
+    const productInfo = { name: title, price, image: thumbnail, quantity, avalqat };
     const cartProducts = this.getSavedCart();
-    const newCartProducts = [...cartProducts, { name, price, image, quantity, avalqat }];
+    const newCartProducts = [...cartProducts, productInfo];
     localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
   };
 
