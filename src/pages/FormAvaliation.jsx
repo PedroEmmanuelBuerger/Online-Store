@@ -47,16 +47,13 @@ export default class FormAvaliation extends Component {
     }));
   };
 
-  resetvalues =  () => {
-       this.setState(() => ({
-        text: '',
-        email: '',
-        }))
-  }
-
-  saveAvaliation = async (par1) => {
+  saveAvaliation = async (event) => {
+    // this.setState(() => ({
+    //   text: '',
+    //   email: '',
+    // }));
     this.checkbutton();
-    par1.preventDefault();
+    event.preventDefault();
     const { ratting, email, text } = this.state;
     const avaliationObj = { email, text, ratting };
     await this.setState(() => ({
@@ -86,15 +83,15 @@ export default class FormAvaliation extends Component {
     const message = <p data-testid="error-msg">Campos inválidos</p>;
     return (
       <div>
-        <form >
+        <form>
           <label htmlFor="email">
             <input
               type="email"
               data-testid="product-detail-email"
               name="email"
-              onChange={  (e) => {
-                 this.handleChang(e);
-                 this.checkbutton()
+              onChange={ async (e) => {
+                await this.handleChang(e);
+                this.checkbutton();
               } }
               value={ email }
             />
@@ -106,9 +103,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${one}-rating` }
                 id={ one }
-                onClick={  (e) => {
-                   this.handleChang(e);
-                   this.checkbutton()
+                onClick={ async (e) => {
+                  await this.handleChang(e);
+                  this.checkbutton();
                 } }
                 defaultValue={ email }
               />
@@ -118,9 +115,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${two}-rating` }
                 id={ two }
-                onClick={  (e) => {
-                   this.handleChang(e);
-                   this.checkbutton()
+                onClick={ async (e) => {
+                  await this.handleChang(e);
+                  this.checkbutton();
                 } }
               />
               2
@@ -129,9 +126,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${three}-rating` }
                 id={ three }
-                onClick={  (e) => {
-                  this.handleChang(e);
-                  this.checkbutton()
+                onClick={ async (e) => {
+                  await this.handleChang(e);
+                  this.checkbutton();
                 } }
               />
               3
@@ -140,9 +137,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${four}-rating` }
                 id={ four }
-                onClick={  (e) => {
-                 this.handleChang(e);
-                 this.checkbutton()
+                onClick={ async (e) => {
+                  await this.handleChang(e);
+                  this.checkbutton();
                 } }
               />
               4
@@ -151,9 +148,9 @@ export default class FormAvaliation extends Component {
                 type="radio"
                 data-testid={ `${five}-rating` }
                 id={ five }
-                onClick={  (e) => {
-                   this.handleChang(e);
-                   this.checkbutton()
+                onClick={ async (e) => {
+                  await this.handleChang(e);
+                  this.checkbutton();
                 } }
               />
               5
@@ -171,13 +168,9 @@ export default class FormAvaliation extends Component {
             />
           </label>
           <button
-            type="button"
+            type="submit"
             data-testid="submit-review-btn"
-            onClick={ (e) => {
-              this.checkbutton();
-              this.resetvalues();
-              this.saveAvaliation(e);
-            } }
+            onClick={ this.saveAvaliation }
           >
             Enviar
           </button>
