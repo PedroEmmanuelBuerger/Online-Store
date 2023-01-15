@@ -35,6 +35,7 @@ export default class Home extends Component {
     }));
     localStorage.setItem('CartProductQuantity', bool.length);
   };
+  // aa
 
   getClickSearch = async () => {
     const { valueSearch } = this.state;
