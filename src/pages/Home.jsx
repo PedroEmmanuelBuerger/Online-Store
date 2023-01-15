@@ -35,7 +35,6 @@ export default class Home extends Component {
     }));
     localStorage.setItem('CartProductQuantity', bool.length);
   };
-  // aa
 
   getClickSearch = async () => {
     const { valueSearch } = this.state;
@@ -143,6 +142,7 @@ export default class Home extends Component {
                     title={ product.title }
                     thumbnail={ product.thumbnail }
                     price={ product.price }
+                    shipping={ product.shipping }
                   />
                 </Link>
                 <button

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 
 export default class ProductCard extends Component {
   render() {
-    const { id, title, thumbnail, price } = this.props;
+    const { id, title, thumbnail, price, shipping } = this.props;
     return (
       <section id={ id } data-testid="product">
         <h6>
@@ -14,6 +14,10 @@ export default class ProductCard extends Component {
           alt="imagem-do-produto"
         />
         <p>{ price }</p>
+        {shipping.free_shipping === true ? (
+          <p data-testid="free-shipping">Frete Grátis</p>
+        )
+          : ''}
       </section>
     );
   }
@@ -24,4 +28,5 @@ ProductCard.propTypes = {
   title: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  shipping: PropTypes.shape([object]).isRequired,
 };
