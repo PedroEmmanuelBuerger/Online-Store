@@ -8,7 +8,7 @@ export default class FormAvaliation extends Component {
     text: '',
     arrayOfAvaliations: [],
     newArray: [],
-    buttonValidation: false,
+    buttonValidation: true,
   };
 
   async componentDidMount() {
@@ -45,19 +45,22 @@ export default class FormAvaliation extends Component {
     this.setState(() => ({
       [name]: value,
     }));
+    this.checkbutton();
   };
 
   saveAvaliation = async (event) => {
-    // this.setState(() => ({
-    //   text: '',
-    //   email: '',
-    // }));
     this.checkbutton();
     event.preventDefault();
-    const { ratting, email, text } = this.state;
+    const { ratting, email, text, buttonValidation } = this.state;
+    if (buttonValidation) {
+      return;
+    }
     const avaliationObj = { email, text, ratting };
     await this.setState(() => ({
+      email: '',
+      text: '',
       arrayOfAvaliations: [avaliationObj],
+      buttonValidation: true,
     }));
     this.attStage();
   };
@@ -75,11 +78,6 @@ export default class FormAvaliation extends Component {
 
   render() {
     const { buttonValidation, newArray, email, text } = this.state;
-    const one = 1;
-    const two = 2;
-    const three = 3;
-    const four = 4;
-    const five = 5;
     const message = <p data-testid="error-msg">Campos inválidos</p>;
     return (
       <div>
@@ -89,11 +87,11 @@ export default class FormAvaliation extends Component {
               type="email"
               data-testid="product-detail-email"
               name="email"
+              value={ email }
               onChange={ async (e) => {
                 await this.handleChang(e);
                 this.checkbutton();
               } }
-              value={ email }
             />
           </label>
           <nav>
@@ -101,20 +99,19 @@ export default class FormAvaliation extends Component {
               <input
                 name="ratting"
                 type="radio"
-                data-testid={ `${one}-rating` }
-                id={ one }
+                data-testid="1-rating"
+                id={ 1 }
                 onClick={ async (e) => {
                   await this.handleChang(e);
                   this.checkbutton();
                 } }
-                defaultValue={ email }
               />
               1
               <input
                 name="ratting"
                 type="radio"
-                data-testid={ `${two}-rating` }
-                id={ two }
+                data-testid="2-rating"
+                id={ 2 }
                 onClick={ async (e) => {
                   await this.handleChang(e);
                   this.checkbutton();
@@ -124,8 +121,8 @@ export default class FormAvaliation extends Component {
               <input
                 name="ratting"
                 type="radio"
-                data-testid={ `${three}-rating` }
-                id={ three }
+                data-testid="3-rating"
+                id={ 3 }
                 onClick={ async (e) => {
                   await this.handleChang(e);
                   this.checkbutton();
@@ -135,8 +132,8 @@ export default class FormAvaliation extends Component {
               <input
                 name="ratting"
                 type="radio"
-                data-testid={ `${four}-rating` }
-                id={ four }
+                data-testid="4-rating"
+                id={ 4 }
                 onClick={ async (e) => {
                   await this.handleChang(e);
                   this.checkbutton();
@@ -146,8 +143,8 @@ export default class FormAvaliation extends Component {
               <input
                 name="ratting"
                 type="radio"
-                data-testid={ `${five}-rating` }
-                id={ five }
+                data-testid="5-rating"
+                id={ 5 }
                 onClick={ async (e) => {
                   await this.handleChang(e);
                   this.checkbutton();
