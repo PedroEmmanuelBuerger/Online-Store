@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
 import Cart from '../components/Cart';
 import { getId } from '../services/api';
+import FormAvaliation from './FormAvaliation';
 
 export default class Product extends Component {
   state = {
     productData: [],
+    numberOfLength: 0,
   };
 
   componentDidMount() {
     this.fetchProduct();
+    this.attLocalStorage();
   }
+
+  attLocalStorage = async () => {
+    const products = localStorage.getItem('cartProducts');
+    const bool = products ? JSON.parse(products) : [];
+    await this.setState(() => ({
+      numberOfLength: bool.length,
+    }));
+    localStorage.setItem('CartProductQuantity', bool.length);
+  };
 
   fetchProduct = async () => {
     const { match } = this.props;
     const { id } = match.params;
     const product = await getId(id);
-    console.log(product);
     this.setState(() => ({
       productData: product,
     }));
@@ -39,8 +50,9 @@ export default class Product extends Component {
   };
 
   render() {
-    const { history } = this.props;
-    const { productData } = this.state;
+    const { history, match } = this.props;
+    const id = match.params;
+    const { productData, numberOfLength } = this.state;
 
     return (
       <section>
@@ -66,14 +78,16 @@ export default class Product extends Component {
         {}
         <button
           data-testid="product-detail-add-to-cart"
-          onClick={
-            () => this.getClick(productData)
-          }
+          onClick={ () => {
+            this.getClick(productData);
+            this.attLocalStorage();
+          } }
           type="button"
         >
           +
         </button>
-        <Cart history={ history } />
+        <Cart history={ history } numberOfLength={ numberOfLength } />
+        <FormAvaliation id={ id.id } />
       </section>
     );
   }

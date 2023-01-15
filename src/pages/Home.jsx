@@ -3,7 +3,6 @@ import PropTypes, { object } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getQuery, getCategories, getProductById } from '../services/api';
 import Navegation from './Navegation';
-// import Maps from '../components/Maps';
 import Cart from '../components/Cart';
 import ProductCard from '../components/ProductCard';
 
@@ -13,14 +12,29 @@ export default class Home extends Component {
     products: [],
     error: '',
     valueSearch: '',
+    numberOfLength: 0,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.getCateg();
+    this.attLocalStorage();
+  }
+
+  getCateg = async () => {
     const categories = await getCategories();
     this.setState({
       categories,
     });
-  }
+  };
+
+  attLocalStorage = async () => {
+    const products = localStorage.getItem('cartProducts');
+    const bool = products ? JSON.parse(products) : [];
+    await this.setState(() => ({
+      numberOfLength: bool.length,
+    }));
+    localStorage.setItem('CartProductQuantity', bool.length);
+  };
 
   getClickSearch = async () => {
     const { valueSearch } = this.state;
@@ -76,7 +90,7 @@ export default class Home extends Component {
 
   render() {
     const { history } = this.props;
-    const { categories, products, error } = this.state;
+    const { categories, products, error, numberOfLength } = this.state;
     return (
       <div>
         <header>
@@ -89,7 +103,7 @@ export default class Home extends Component {
                 onClick={ this.getClickRadio }
               />)) }
           </nav>
-          <Cart history={ history } />
+          <Cart history={ history } numberOfLength={ numberOfLength } />
           <form>
             <label htmlFor="searchInput">
               <input
@@ -128,14 +142,16 @@ export default class Home extends Component {
                     title={ product.title }
                     thumbnail={ product.thumbnail }
                     price={ product.price }
+                    shipping={ product.shipping }
                   />
                 </Link>
                 <button
                   id={ product.id }
                   data-testid="product-add-to-cart"
-                  onClick={
-                    () => this.getClick(product)
-                  }
+                  onClick={ () => {
+                    this.getClick(product);
+                    this.attLocalStorage();
+                  } }
                   type="button"
                 >
                   +
