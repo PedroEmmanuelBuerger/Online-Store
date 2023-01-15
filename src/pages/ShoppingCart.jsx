@@ -1,4 +1,6 @@
+import PropTypes, { object } from 'prop-types';
 import React, { Component } from 'react';
+import Cart from '../components/Cart';
 
 class ShoppingCart extends Component {
   state = {
@@ -64,8 +66,10 @@ class ShoppingCart extends Component {
 
   render() {
     const { cartItems, length0 } = this.state;
+    const { history } = this.props;
     return (
       <div>
+        <Cart />
         { length0 ? (
           <p data-testid=" shopping-cart-empty-message"> Seu carrinho está vazio</p>
         ) : cartItems.map(
@@ -108,14 +112,18 @@ class ShoppingCart extends Component {
         )}
         <button
           type="button"
-          data-testid="shopping-cart-button"
+          data-testid="checkout-products"
+          onClick={ () => history.push('/Checkout') }
         >
           Finalizar compra
         </button>
-
       </div>
     );
   }
 }
+
+ShoppingCart.propTypes = {
+  history: PropTypes.shape([object]).isRequired,
+};
 
 export default ShoppingCart;
