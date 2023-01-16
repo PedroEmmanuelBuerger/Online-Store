@@ -27,9 +27,9 @@ export default class Checkout extends Component {
     }));
   };
 
-  handleChang = async ({ target }) => {
+  handleChang = ({ target }) => {
     const { id, value } = target;
-    await this.setState(() => ({
+    this.setState(() => ({
       [id]: value,
     }));
     this.checkButton();
@@ -47,7 +47,7 @@ export default class Checkout extends Component {
     }));
   };
 
-  checkButton = async () => {
+  checkButton = () => {
     const { Name, Email, Cpf, Phone, Cep, Adress, Payment } = this.state;
     const validName = Name.length > 0;
     const validEmail = Email.length > 0;
@@ -58,7 +58,7 @@ export default class Checkout extends Component {
     const validPayment = Payment.length > 0;
     const bool = (validName && validEmail
          && validCpf && validPhone && validCep && validAdress && validPayment);
-    await this.setState(() => ({
+    this.setState(() => ({
       checkButton: bool,
     }));
     this.attError();
