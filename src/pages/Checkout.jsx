@@ -12,7 +12,7 @@ export default class Checkout extends Component {
     Adress: '',
     Payment: '',
     checkButton: false,
-    error: false,
+    error: true,
   };
 
   componentDidMount() {
@@ -35,7 +35,19 @@ export default class Checkout extends Component {
     this.checkButton();
   };
 
-  checkButton = () => {
+  attError = () => {
+    const { checkButton } = this.state;
+    if (!checkButton) {
+      return this.setState(() => ({
+        error: true,
+      }));
+    }
+    return this.setState(() => ({
+      error: false,
+    }));
+  };
+
+  checkButton = async () => {
     const { Name, Email, Cpf, Phone, Cep, Adress, Payment } = this.state;
     const validName = Name.length > 0;
     const validEmail = Email.length > 0;
@@ -46,18 +58,17 @@ export default class Checkout extends Component {
     const validPayment = Payment.length > 0;
     const bool = (validName && validEmail
          && validCpf && validPhone && validCep && validAdress && validPayment);
-    this.setState(() => ({
+    await this.setState(() => ({
       checkButton: bool,
     }));
+    this.attError();
   };
 
   attPage = () => {
-    const { checkButton } = this.state;
     const { history } = this.props;
+    const { checkButton } = this.state;
     if (!checkButton) {
-      return this.setState(() => ({
-        error: true,
-      }));
+      return;
     }
     this.setState(() => ({
       error: false,

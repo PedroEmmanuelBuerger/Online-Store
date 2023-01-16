@@ -8,7 +8,7 @@ export default class FormAvaliation extends Component {
     text: '',
     arrayOfAvaliations: [],
     newArray: [],
-    buttonValidation: true,
+    buttonValidation: false,
   };
 
   async componentDidMount() {
@@ -51,8 +51,11 @@ export default class FormAvaliation extends Component {
   saveAvaliation = async (event) => {
     this.checkbutton();
     event.preventDefault();
-    const { ratting, email, text, buttonValidation } = this.state;
-    if (buttonValidation) {
+    const { ratting, email, text } = this.state;
+    const emailVali = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\)?$/i;
+    const emailbool = emailVali.test(email);
+    const bool = !(emailbool && ratting);
+    if (bool) {
       return;
     }
     const avaliationObj = { email, text, ratting };
@@ -73,6 +76,7 @@ export default class FormAvaliation extends Component {
     localStorage.setItem(id, JSON.stringify(newArray));
     this.setState(() => ({
       newArray,
+      buttonValidation: false,
     }));
   };
 
