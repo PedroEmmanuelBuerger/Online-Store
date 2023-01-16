@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class ProductCard extends Component {
   render() {
     const { id, title, thumbnail, price, shipping } = this.props;
     return (
       <section id={ id } data-testid="product">
-        <h6>
-          { title }
-        </h6>
+        <Link
+          to={ `/product/${id}` }
+          data-testid="product-detail-link"
+        >
+          <h6>
+            { title }
+          </h6>
+        </Link>
         <img
           src={ thumbnail }
           alt="imagem-do-produto"
