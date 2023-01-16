@@ -11,8 +11,7 @@ export default class Checkout extends Component {
     Cep: '',
     Adress: '',
     Payment: '',
-    checkButton: false,
-    error: true,
+    error: false,
   };
 
   componentDidMount() {
@@ -32,22 +31,9 @@ export default class Checkout extends Component {
     this.setState(() => ({
       [id]: value,
     }));
-    this.checkButton();
   };
 
-  attError = () => {
-    const { checkButton } = this.state;
-    if (!checkButton) {
-      return this.setState(() => ({
-        error: true,
-      }));
-    }
-    return this.setState(() => ({
-      error: false,
-    }));
-  };
-
-  checkButton = () => {
+  attPage = () => {
     const { Name, Email, Cpf, Phone, Cep, Adress, Payment } = this.state;
     const validName = Name.length > 0;
     const validEmail = Email.length > 0;
@@ -58,17 +44,11 @@ export default class Checkout extends Component {
     const validPayment = Payment.length > 0;
     const bool = (validName && validEmail
          && validCpf && validPhone && validCep && validAdress && validPayment);
-    this.setState(() => ({
-      checkButton: bool,
-    }));
-    this.attError();
-  };
-
-  attPage = () => {
     const { history } = this.props;
-    const { checkButton } = this.state;
-    if (!checkButton) {
-      return;
+    if (!bool) {
+      return this.setState(() => ({
+        error: true,
+      }));
     }
     this.setState(() => ({
       error: false,
@@ -100,7 +80,9 @@ export default class Checkout extends Component {
                     type="text"
                     data-testid="checkout-fullname"
                     id="Name"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="email">
@@ -109,7 +91,9 @@ export default class Checkout extends Component {
                     type="email"
                     data-testid="checkout-email"
                     id="Email"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="Cpf">
@@ -119,7 +103,9 @@ export default class Checkout extends Component {
                     type="text"
                     data-testid="checkout-cpf"
                     id="Cpf"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="telefone">
@@ -128,7 +114,9 @@ export default class Checkout extends Component {
                     type="text"
                     data-testid="checkout-phone"
                     id="Phone"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="cep">
@@ -137,7 +125,9 @@ export default class Checkout extends Component {
                     type="text"
                     data-testid="checkout-cep"
                     id="Cep"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="endereco">
@@ -146,7 +136,9 @@ export default class Checkout extends Component {
                     type="text"
                     data-testid="checkout-address"
                     id="Adress"
-                    onChange={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                 </label>
                 <label htmlFor="pagamento">
@@ -156,7 +148,9 @@ export default class Checkout extends Component {
                     data-testid="ticket-payment"
                     name="Payment"
                     id="Payment"
-                    onClick={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                   Boleto
                   <input
@@ -165,7 +159,9 @@ export default class Checkout extends Component {
                     name="Payment"
                     data-testid="visa-payment"
                     id="Payment"
-                    onClick={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                   Visa
                   <input
@@ -174,7 +170,9 @@ export default class Checkout extends Component {
                     name="Payment"
                     data-testid="master-payment"
                     id="Payment"
-                    onClick={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                   Master Card
                   <input
@@ -183,7 +181,9 @@ export default class Checkout extends Component {
                     name="Payment"
                     data-testid="elo-payment"
                     id="Payment"
-                    onClick={ this.handleChang }
+                    onChange={ async (e) => {
+                      await this.handleChang(e);
+                    } }
                   />
                   Elo
                 </label>
@@ -200,7 +200,7 @@ export default class Checkout extends Component {
               </form>
               {error ? (
                 <p data-testid="error-msg"> Campos inválidos </p>
-              ) : ''}
+              ) : ('')}
             </div>
           ) : '' }
       </div>
