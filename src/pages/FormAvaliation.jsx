@@ -6,7 +6,6 @@ export default class FormAvaliation extends Component {
     ratting: '',
     email: '',
     text: '',
-    arrayOfAvaliations: [],
     newArray: [],
     buttonValidation: false,
   };
@@ -33,6 +32,7 @@ export default class FormAvaliation extends Component {
     this.setState(() => ({
       buttonValidation: bool,
     }));
+    return bool;
   };
 
   handleChang = ({ target }) => {
@@ -48,31 +48,21 @@ export default class FormAvaliation extends Component {
     this.checkbutton();
   };
 
-  saveAvaliation = async (event) => {
-    this.checkbutton();
+  saveAvaliation = (event) => {
     event.preventDefault();
     const { ratting, email, text } = this.state;
-    const emailVali = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\)?$/i;
-    const emailbool = emailVali.test(email);
-    const bool = !(emailbool && ratting);
+    const bool = this.checkbutton();
     if (bool) {
       return;
     }
-    const avaliationObj = { email, text, ratting };
-    await this.setState(() => ({
+    this.setState(() => ({
       email: '',
       text: '',
-      arrayOfAvaliations: [avaliationObj],
       buttonValidation: true,
     }));
-    this.attStage();
-  };
-
-  attStage = () => {
     const { id } = this.props;
     const savedCards = this.getLocalStorage();
-    const { arrayOfAvaliations } = this.state;
-    const newArray = [...savedCards, ...arrayOfAvaliations];
+    const newArray = [...savedCards, { email, text, ratting }];
     localStorage.setItem(id, JSON.stringify(newArray));
     this.setState(() => ({
       newArray,
@@ -81,7 +71,7 @@ export default class FormAvaliation extends Component {
   };
 
   render() {
-    const { buttonValidation, newArray, email, text } = this.state;
+    const { newArray, email, text, buttonValidation } = this.state;
     const message = <p data-testid="error-msg">Campos inválidos</p>;
     return (
       <div>
