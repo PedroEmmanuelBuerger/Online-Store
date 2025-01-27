@@ -1,41 +1,41 @@
 # FrontEnd Online Store
-O FrontEnd Online Store é um projeto desenvolvido para criar a interface do usuário de uma loja virtual online. O objetivo do projeto é fornecer aos usuários uma experiência de compra intuitiva e agradável, permitindo que eles naveguem pelos produtos, adicionem itens ao carrinho e concluam o processo de compra.
 
-## Funcionalidades
-O projeto possui as seguintes funcionalidades:
-- Navegação de produtos: permite aos usuários explorarem os produtos disponíveis na loja, visualizando detalhes, imagens e informações relevantes.
-- Adição ao carrinho: possibilita aos usuários adicionar produtos ao carrinho de compras, selecionando variações e quantidades desejadas.
-- Carrinho de compras: exibe aos usuários o resumo dos produtos selecionados, permitindo a edição e remoção de itens antes de finalizar a compra.
-- Finalização da compra: oferece aos usuários um processo simplificado de finalização da compra, com informações de envio, pagamento e confirmação do pedido.
-- Avalização do produto: oferece ao usuario a possibilidade de avaliar o produto.
+The FrontEnd Online Store is a project developed to create the user interface of an online store. The goal of the project is to provide users with an intuitive and pleasant shopping experience, allowing them to browse products, add items to their cart, and complete the purchase process.
 
-## Tecnologias Utilizadas
-O projeto foi desenvolvido utilizando as seguintes tecnologias:
-- HTML
-- CSS
-- JavaScript
-- React
-- Redux
+## Features
 
-## equipe
-O projeto foi realizado com o seguintes membros:
-- Pedro Emmanuel Buerger da silva
+The project includes the following features:
+
+- **Product Navigation:** Allows users to explore the products available in the store, viewing details, images, and relevant information.
+- **Add to Cart:** Enables users to add products to the shopping cart, selecting variations and desired quantities.
+- **Shopping Cart:** Displays a summary of the selected products, allowing users to edit and remove items before completing the purchase.
+- **Checkout:** Offers users a simplified checkout process, with shipping, payment, and order confirmation information.
+- **Product Rating:** Allows users to rate the product.
+
+## Technologies Used
+
+The project was developed using the following technologies:
+
+- **HTML**
+- **CSS**
+- **JavaScript**
+- **React**
+- **Redux**
+
+## Team
+
+The project was developed by the following team members:
+
+- Pedro Emmanuel Buerger da Silva
 - Allan Ikeda
 - Alexandre Rebelo
 - Reynan Henry
 - Luis Gustavo De Paula
 
-## Instalação
-Para visualizar o projeto localmente, siga os passos abaixo:
-1. Clone o repositório para sua máquina local:
-git clone https://github.com/PedroEmmanuelBuerger/project-FrontEnd_Online_Store.git
-2. Navegue até a pasta do projeto:
-cd project-FrontEnd_Online_Store
-3. Instale as dependências executando o comando: npm install 
-4. Inicie o servidor de desenvolvimento: npm start
+## Key Learnings
 
-## Principais Aprendizados
-Durante o desenvolvimento deste projeto, foram aplicados os conceitos de desenvolvimento web utilizando React e Redux para a criação da interface do usuário e a gestão do estado da aplicação. Também foram utilizados trabalho em equipe com o Trelo, aprimorando a comunicação, liderança entre outras soft skills.
+During the development of this project, web development concepts were applied using React and Redux for creating the user interface and managing the application state. Teamwork was also essential, with the use of Trello to improve communication, leadership, and other soft skills.
 
-## Conclusão
-O FrontEnd Online Store oferece uma experiência de compra agradável e eficiente aos usuários de uma loja virtual online. O projeto foi uma oportunidade para aplicar e aprimorar habilidades em desenvolvimento web com React, Redux e Styled Components, contribuindo para a criação de interfaces de usuário modernas e funcionais.
+## Conclusion
+
+The FrontEnd Online Store provides a pleasant and efficient shopping experience for users in an online store. The project was an opportunity to apply and enhance skills in web development with React, Redux, and Styled Components, contributing to the creation of modern and functional user interfaces.
